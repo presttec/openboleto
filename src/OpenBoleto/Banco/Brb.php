@@ -69,6 +69,20 @@ class Brb extends BoletoAbstract
      * @var array
      */
     protected $carteirasNomes = array('1' => 'COB', '2' => 'COB');
+	
+    /**
+     * Nome do arquivo de template a ser usado
+     *
+     * A Caixa obriga-nos a usar campos não presentes no projeto original, além de alterar cedente
+     * para beneficiário e sacado para pagador. Segundo o banco, estas regras muitas vezes não são
+     * observadas na homologação, mas, considerando o caráter subjetivo de quem vai analisar na Caixa,
+     * preferi incluir todos de acordo com o manual. Para conhecimento, foi copiado o modelo 3.5.1 adaptado
+     * Também removi os campos Espécie, REAL, Quantidade e Valor por considerar desnecessários e não obrigatórios
+     *
+     * @var string
+     */
+    protected $layout = 'brb.phtml';
+	
 
     /**
      * Gera o Nosso Número.
