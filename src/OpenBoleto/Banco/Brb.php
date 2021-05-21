@@ -69,7 +69,7 @@ class Brb extends BoletoAbstract
      * @var array
      */
     protected $carteirasNomes = array('1' => 'COB', '2' => 'COB');
-	
+
     /**
      * Nome do arquivo de template a ser usado
      *
@@ -82,7 +82,7 @@ class Brb extends BoletoAbstract
      * @var string
      */
     protected $layout = 'brb.phtml';
-	
+
 
     /**
      * Gera o Nosso Número.
@@ -102,10 +102,10 @@ class Brb extends BoletoAbstract
     public function getCampoLivre()
     {
         $chave = '000' . static::zeroFill($this->getAgencia(), 3) .
-                 static::zeroFill($this->getConta() . $this->getContaDv(), 7) .
-                 $this->getCarteira() .
-                 static::zeroFill($this->getSequencial(), 6) .
-                 $this->getCodigoBanco();
+            static::zeroFill($this->getConta() . $this->getContaDv(), 7) .
+            $this->getCarteira() .
+            static::zeroFill($this->getSequencial(), 6) .
+            $this->getCodigoBanco();
         $d1 = static::modulo10($chave);
 
         CalculaD2:
@@ -133,6 +133,18 @@ class Brb extends BoletoAbstract
      */
     public function getAgenciaCodigoCedente()
     {
-        return '000 - ' . $this->getAgencia() . ' - ' . $this->getConta() . ' - ' . $this->getContaDv();
+        return $this->getAgencia() . ' - ' . $this->getConta() . ' - ' . $this->getContaDv();
+    }
+    
+    /**
+     * Define o número da conta
+     *
+     * @param int $conta
+     * @return BoletoAbstract
+     */
+    public function setConta($conta)
+    {
+        $this->conta = substr($conta, -6);
+        return $this;
     }
 }
