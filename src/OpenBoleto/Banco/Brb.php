@@ -77,7 +77,7 @@ class Brb extends BoletoAbstract
      */
     protected function gerarNossoNumero()
     {
-        return substr($this->getCampoLivre(), 12);
+        return substr($this->getCampoLivre(), -12);
     }
 
     /**
