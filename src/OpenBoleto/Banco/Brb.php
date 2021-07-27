@@ -71,27 +71,13 @@ class Brb extends BoletoAbstract
     protected $carteirasNomes = array('1' => 'COB', '2' => 'COB');
 
     /**
-     * Nome do arquivo de template a ser usado
-     *
-     * A Caixa obriga-nos a usar campos não presentes no projeto original, além de alterar cedente
-     * para beneficiário e sacado para pagador. Segundo o banco, estas regras muitas vezes não são
-     * observadas na homologação, mas, considerando o caráter subjetivo de quem vai analisar na Caixa,
-     * preferi incluir todos de acordo com o manual. Para conhecimento, foi copiado o modelo 3.5.1 adaptado
-     * Também removi os campos Espécie, REAL, Quantidade e Valor por considerar desnecessários e não obrigatórios
-     *
-     * @var string
-     */
-    protected $layout = 'brb.phtml';
-
-
-    /**
      * Gera o Nosso Número.
      *
      * @return string
      */
     protected function gerarNossoNumero()
     {
-        return substr($this->getCampoLivre(), 13);
+        return substr($this->getCampoLivre(), 12);
     }
 
     /**
@@ -102,10 +88,10 @@ class Brb extends BoletoAbstract
     public function getCampoLivre()
     {
         $chave = '000' . static::zeroFill($this->getAgencia(), 3) .
-            static::zeroFill($this->getConta() . $this->getContaDv(), 7) .
-            $this->getCarteira() .
-            static::zeroFill($this->getSequencial(), 6) .
-            $this->getCodigoBanco();
+                 static::zeroFill($this->getConta() . $this->getContaDv(), 7) .
+                 $this->getCarteira() .
+                 static::zeroFill($this->getSequencial(), 6) .
+                 $this->getCodigoBanco();
         $d1 = static::modulo10($chave);
 
         CalculaD2:
@@ -134,17 +120,5 @@ class Brb extends BoletoAbstract
     public function getAgenciaCodigoCedente()
     {
         return $this->getAgencia() . ' - ' . $this->getConta() . ' - ' . $this->getContaDv();
-    }
-    
-    /**
-     * Define o número da conta
-     *
-     * @param int $conta
-     * @return BoletoAbstract
-     */
-    public function setConta($conta)
-    {
-        $this->conta = substr($conta, -6);
-        return $this;
     }
 }
